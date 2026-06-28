@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Park Hayan — UI/UX Designer Portfolio</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght=300;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --white: #ffffff;
+      --black: #000000;
+      --dark-grey: #111111;
+      --light-grey: #f5f5f5;
+      --border-dark: rgba(0, 0, 0, 0.1);
+      --border-light: rgba(255, 255, 255, 0.15);
+      --point-color: #FFD94D;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    ::selection { background-color: var(--point-color); color: #000000; }
+    ::-moz-selection { background-color: var(--point-color); color: #000000; }
+
+    body {
+      font-family: 'Gmarket Sans', sans-serif;
+      background-color: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    #custom-cursor {
+      width: 20px; height: 20px;
+      border: 1px solid var(--black);
+      border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+    }
+    #custom-cursor.hover { width: 40px; height: 40px; background-color: rgba(0,0,0,0.05); }
+    body.dark-mode-cursor #custom-cursor { border-color: var(--white); }
+
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      padding: 2.5rem 5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: color 0.4s;
+    }
+    nav.nav-white { color: var(--black); }
+    nav.nav-dark  { color: var(--white); }
+    .nav-logo { font-weight: 700; letter-spacing: 0.15em; font-size: 1.1rem; }
+    .nav-links { display: flex; gap: 4rem; list-style: none; }
+    .nav-links a { color: inherit; text-decoration: none; font-size: 0.85rem; letter-spacing: 0.15em; font-weight: 500; opacity: 0.8; transition: opacity 0.3s; }
+    .nav-links a:hover { opacity: 1; }
+
+    section { padding: 12rem 5rem; position: relative; width: 100vw; }
+    .section-title { font-size: clamp(3rem, 7vw, 5rem); line-height: 1.05; margin-bottom: 5rem; letter-spacing: -0.03em; font-weight: 700; }
+
+    /* ── HERO ── */
+    .hero {
+      height: 100vh; background-color: var(--white); color: var(--black);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 8rem; overflow: hidden;
+    }
+    .hero-text { max-width: 620px; width: 100%; position: relative; z-index: 10; }
+    .hero-role { font-family: 'DM Serif Display', serif; font-style: italic; font-size: clamp(1.1rem, 2.5vw, 1.5rem); margin-bottom: 1.5rem; letter-spacing: 0.08em; opacity: 0.6; }
+    .hero-name { font-size: clamp(3.2rem, 8vw, 6.5rem); font-weight: 700; line-height: 0.95; letter-spacing: -0.04em; margin-bottom: 3rem; text-transform: uppercase; }
+    .hero-name span { display: block; font-weight: 300; color: transparent; -webkit-text-stroke: 1px var(--black); margin-top: 0.5rem; }
+    .hero-slogan { border-top: 1px solid rgba(0,0,0,0.15); padding-top: 2.5rem; font-size: clamp(0.95rem, 1.8vw, 1.15rem); line-height: 1.9; word-break: keep-all; font-weight: 300; }
+
+    .hero-image-area { position: relative; width: 32vw; height: 78vh; display: flex; align-items: center; justify-content: center; z-index: 5; }
+    .hero-image-area img { width: 100%; height: 100%; object-fit: contain; filter: grayscale(0.2); transition: all 0.6s cubic-bezier(0.2,1,0.3,1); }
+    .hero-image-area:hover img { filter: grayscale(0); transform: scale(1.01); }
+    .hero-image-area::after { content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; box-shadow: inset 0 0 30px 25px var(--white); pointer-events: none; }
+
+    .btn-primary { display: inline-block; padding: 1.2rem 3.5rem; text-decoration: none; font-weight: 700; margin-top: 2.5rem; font-size: 0.9rem; letter-spacing: 0.1em; transition: all 0.3s cubic-bezier(0.2,1,0.3,1); }
+    .hero .btn-primary { background: var(--black); color: var(--white); }
+    .hero .btn-primary:hover { background: #333; transform: translateY(-4px); }
+
+    /* ── PHILOSOPHY ── */
+    .philosophy { background-color: var(--dark-grey); color: var(--white); }
+    .philosophy .section-title { border-bottom: 1px solid var(--border-light); padding-bottom: 2rem; }
+    .phil-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 3rem; margin-top: 5rem; }
+    .phil-card { background: rgba(255,255,255,0.03); padding: 4rem 3rem; border: 1px solid var(--border-light); transition: all 0.4s ease; }
+    .phil-card:hover { background: var(--white); color: var(--black); border-color: var(--white); transform: translateY(-10px); }
+    .phil-num { font-family: 'DM Serif Display'; font-size: 2.5rem; opacity: 0.3; margin-bottom: 1.5rem; font-style: italic; }
+    .phil-card h3 { font-size: 1.5rem; margin-bottom: 1.25rem; font-weight: 700; }
+    .phil-card p { opacity: 0.7; font-size: 0.95rem; line-height: 1.7; }
+
+    /* ── ABOUT ── */
+    .about-me { background-color: var(--white); color: var(--black); border-top: 1px solid var(--border-dark); }
+    .about-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 6rem; align-items: center; }
+    .about-text h3 { font-size: 2.2rem; margin-bottom: 2rem; font-weight: 700; }
+    .about-desc { font-size: 1.1rem; line-height: 1.9; word-break: keep-all; margin-bottom: 3.5rem; color: #333; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .stat-box { border: 1px solid var(--border-dark); padding: 3rem 2rem; text-align: center; background: var(--light-grey); transition: all 0.3s; }
+    .stat-box:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+    .stat-val { font-size: 3rem; font-weight: 700; display: block; line-height: 1; margin-bottom: 0.5rem; }
+    .stat-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6; }
+    .skills-tag-wrap { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.5rem; }
+    .skill-tag { border: 1px solid var(--border-dark); padding: 0.6rem 1.4rem; font-size: 0.85rem; background: var(--white); transition: all 0.3s; }
+    .skill-tag:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+    .skill-tag.highlight { background: var(--black); color: var(--white); border-color: var(--black); }
+
+    /* ── DETAIL PAGE ── */
+    .detail-page-wrapper { background-color: var(--white); color: var(--black); min-height: 100vh; }
+    .detail-page { background: var(--white); padding: 12rem 5rem; }
+    .hidden-page { display: none; }
+    .fade-up { opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.2,1,0.3,1); }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── TIMELINE ── */
+    .timeline-container {
+      width: 100%; margin-top: 4rem;
+      border-top: 1px solid var(--border-dark);
+      border-bottom: 1px solid var(--border-dark);
+      padding: 3rem 0;
+    }
+    .timeline-label {
+      display: flex; justify-content: space-between;
+      font-size: 0.75rem; letter-spacing: 0.15em; color: #666;
+      text-transform: uppercase; margin-bottom: 2rem;
+    }
+    .timeline-track { display: flex; gap: 2.5rem; overflow-x: auto; padding-bottom: 1.5rem; scrollbar-width: thin; }
+    .timeline-track::-webkit-scrollbar { height: 4px; }
+    .timeline-track::-webkit-scrollbar-thumb { background: var(--black); }
+
+    .timeline-card {
+      flex: 0 0 280px;
+      background: var(--white);
+      border: 1px solid var(--border-dark);
+      padding: 2.5rem 2rem;
+      display: flex; flex-direction: column; justify-content: space-between;
+      min-height: 380px; position: relative;
+      transition: all 0.4s cubic-bezier(0.2,1,0.3,1);
+      text-decoration: none; color: var(--black);
+      overflow: hidden; cursor: pointer;
+    }
+    .timeline-card:hover {
+      border-color: var(--black); transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+    }
+    .tl-num { font-size: 0.85rem; font-weight: 700; opacity: 0.3; color: var(--black); margin-bottom: 0.5rem; }
+    .tl-icon { width: 100%; flex-grow: 1; display: flex; justify-content: center; align-items: center; margin: 1.5rem 0; }
+
+    .chrome-artboard { width: 85px; height: 85px; filter: url(#dark-liquid-chrome); transition: all 0.4s ease; }
+    .chrome-shape { fill: none; stroke: url(#black-metallic); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+    .timeline-card:hover .chrome-artboard { transform: scale(1.06) rotate(-2deg); }
+    .timeline-card:hover .chrome-shape { stroke: url(#gold-metallic); stroke-width: 5.5; }
+
+    .tl-title { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; color: var(--black); margin-bottom: 1.2rem; text-align: center; }
+    .tl-bottom-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 1rem; width: 100%; }
+    .tl-category { font-size: 0.75rem; font-weight: 500; color: #888; letter-spacing: 0.05em; }
+    .tl-arrow { font-size: 1.2rem; transition: transform 0.3s; color: var(--black); opacity: 0.6; font-weight: 700; }
+    .timeline-card:hover .tl-arrow { transform: translateX(5px); opacity: 1; color: #e6b800; }
+
+    /* ── MODAL ── */
+    .project-modal {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(255,255,255,0.99); z-index: 2000;
+      display: none; justify-content: center; align-items: flex-start;
+      padding: 4rem; overflow-y: auto;
+    }
+    .modal-content { width: 100%; max-width: 1200px; position: relative; margin: auto; }
+    .close-modal-btn {
+      position: fixed; top: 3rem; right: 4rem;
+      background: var(--black); color: var(--white);
+      border: none; padding: 0.8rem 2rem;
+      font-family: 'Gmarket Sans'; font-size: 0.85rem; font-weight: 700;
+      cursor: pointer; letter-spacing: 0.1em; transition: all 0.3s; z-index: 10;
+    }
+    .close-modal-btn:hover { background: #333; }
+    .modal-header-info { margin-bottom: 3.5rem; border-bottom: 1px solid var(--border-dark); padding-bottom: 1.5rem; }
+    .modal-badge { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #888; }
+    .modal-main-title { font-size: 2.8rem; font-weight: 700; letter-spacing: -0.03em; margin-top: 0.5rem; }
+
+    .results-gallery-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 2.5rem; margin-top: 2rem; }
+    .results-gallery-grid.single-layout { grid-template-columns: 1fr; max-width: 800px; margin: 0 auto; }
+    .result-item-card { border: 1px solid var(--border-dark); background: var(--light-grey); overflow: hidden; padding: 1.2rem; border-radius: 4px; }
+    .result-item-card img, .result-item-card video { width: 100%; height: auto; object-fit: contain; display: block; background: #fff; }
+    .result-caption { font-size: 0.85rem; color: #555; margin-top: 1rem; padding: 0 0.2rem; font-weight: 500; border-left: 2px solid var(--black); padding-left: 0.5rem; }
+
+    .cta-capsule-wrap { display: flex; justify-content: center; margin-top: 6rem; }
+    .cta-capsule {
+      background: var(--light-grey); border: 1px solid var(--border-dark);
+      padding: 0.8rem 2.5rem; border-radius: 40px;
+      font-size: 0.85rem; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 1.5rem;
+      text-decoration: none; color: var(--black); transition: all 0.3s;
+    }
+    .cta-capsule:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+
+    @media (max-width: 1024px) {
+      nav { padding: 2rem; }
+      section { padding: 6rem 2rem; }
+      .hero { padding: 0 2rem; flex-direction: column; justify-content: center; text-align: center; gap: 3rem; }
+      .results-gallery-grid { grid-template-columns: 1fr; }
+      .phil-grid { grid-template-columns: 1fr; }
+      .about-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SVG Defs for chrome effect -->
+  <svg style="position:absolute;width:0;height:0;" width="0" height="0">
+    <defs>
+      <linearGradient id="black-metallic" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="#4a4a4a"/>
+        <stop offset="20%"  stop-color="#000000"/>
+        <stop offset="45%"  stop-color="#777777"/>
+        <stop offset="60%"  stop-color="#111111"/>
+        <stop offset="85%"  stop-color="#555555"/>
+        <stop offset="100%" stop-color="#000000"/>
+      </linearGradient>
+      <linearGradient id="gold-metallic" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"   stop-color="#FFF5CC"/>
+        <stop offset="25%"  stop-color="#FFD94D"/>
+        <stop offset="50%"  stop-color="#FFFFFF"/>
+        <stop offset="70%"  stop-color="#806600"/>
+        <stop offset="90%"  stop-color="#FFE580"/>
+        <stop offset="100%" stop-color="#4D3D00"/>
+      </linearGradient>
+      <filter id="dark-liquid-chrome" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+        <feGaussianBlur in="displaced" stdDeviation="0.5" result="blurred"/>
+        <feSpecularLighting in="blurred" surfaceScale="4.5" specularConstant="1.4" specularExponent="30" lighting-color="#ffffff" result="light">
+          <feDistantLight azimuth="135" elevation="45"/>
+        </feSpecularLighting>
+        <feComposite in="light" in2="displaced" operator="in" result="lightInGraphic"/>
+        <feBlend mode="multiply" in="SourceGraphic" in2="lightInGraphic"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <div id="custom-cursor"></div>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN PAGE
+  ═══════════════════════════════════════════ -->
+  <div id="main-page">
+    <nav class="nav-white" id="main-nav">
+      <div class="nav-logo">PARK HAYAN</div>
+      <ul class="nav-links">
+        <li><a href="#philosophy">PHILOSOPHY</a></li>
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="javascript:void(0)" onclick="showDetail()">PROJECTS</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero" id="hero">
+      <div class="hero-text">
+        <div class="hero-role">UI/UX DESIGNER & STRATEGIST</div>
+        <h1 class="hero-name">PARK HAYAN <span>PORTFOLIO</span></h1>
+        <div class="hero-slogan fade-up">
+          빛바랜 색마저 '멋'으로 승화시켜<br>
+          사용자의 일상에 투명하게 스며듭니다.
+          <br>
+          <a href="javascript:void(0)" class="btn-primary" onclick="showDetail()">VIEW ARCHIVE →</a>
+        </div>
+      </div>
+      <div class="hero-image-area fade-up">
+        <img src="images/Hayan Profile_Data.jpg" alt="Park Hayan Hero Cover">
+      </div>
+    </section>
+
+    <section class="philosophy" id="philosophy">
+      <h2 class="section-title fade-up">DE-CONSTRUCTED<br>EXPERIENCE</h2>
+      <div class="phil-grid">
+        <div class="phil-card fade-up">
+          <div class="phil-num">01</div>
+          <h3>투명한 경험</h3>
+          <p>사용자가 UI를 의식하지 않아도 자연스럽게 목표에 도달하도록 인터페이스는 스스로를 지웁니다.</p>
+        </div>
+        <div class="phil-card fade-up">
+          <div class="phil-num">02</div>
+          <h3>색의 승화</h3>
+          <p>빛바랜 색에서도 아름다움을 발견합니다. 완벽하지 않은 것들을 멋으로 전환합니다.</p>
+        </div>
+        <div class="phil-card fade-up">
+          <div class="phil-num">03</div>
+          <h3>일상의 리듬</h3>
+          <p>디자인은 삶의 흐름을 방해하지 않고 조용히 동화되어 더 나은 리듬을 만듭니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-me" id="about">
+      <div class="about-layout">
+        <div class="about-text fade-up">
+          <h2 class="section-title">경계를 지우는<br>디자이너</h2>
+          <h3>나는 어떤 디자이너인가?</h3>
+          <p class="about-desc">
+            화면의 아름다움뿐만 아니라 사용자의 흐름, 감정, 리듬까지 함께 고민하는 디자이너입니다.
+            여백 속에서도 고유한 감각을 발견하고 구조적인 형태로 시각화하는 것을 즐깁니다.
+          </p>
+          <div class="skills-tag-wrap">
+            <span class="skill-tag highlight">UI Design</span>
+            <span class="skill-tag">UX Research</span>
+            <span class="skill-tag highlight">Figma</span>
+            <span class="skill-tag">Prototyping</span>
+            <span class="skill-tag highlight">Design System</span>
+          </div>
+        </div>
+        <div class="about-stats fade-up">
+          <div class="stats-grid">
+            <div class="stat-box"><span class="stat-val">3+</span><span class="stat-label">Years Exp</span></div>
+            <div class="stat-box"><span class="stat-val">20+</span><span class="stat-label">Projects</span></div>
+            <div class="stat-box"><span class="stat-val">0px</span><span class="stat-label">Invisible Design</span></div>
+            <div class="stat-box"><span class="stat-val">∞</span><span class="stat-label">Curiosity</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       DETAIL PAGE
+  ═══════════════════════════════════════════ -->
+  <div id="detail-page" class="hidden-page detail-page-wrapper">
+    <nav class="nav-white">
+      <div class="nav-logo">PARK HAYAN — ARCHIVE</div>
+      <ul class="nav-links">
+        <li><a href="javascript:void(0)" onclick="showMain()">BACK TO HOME</a></li>
+      </ul>
+    </nav>
+
+    <section class="detail-page">
+      <div class="fade-up" style="text-align:center;margin-bottom:5rem;">
+        <h2 class="section-title" style="font-size:clamp(2.5rem,6vw,4rem);margin-bottom:1.5rem;">Design Project Timeline</h2>
+        <p style="font-size:1rem;color:#666;font-weight:500;">각 프로젝트 박스를 클릭하면 세부 그래픽 아카이브 결과물이 전개됩니다.</p>
+      </div>
+
+      <div class="timeline-container fade-up">
+        <div class="timeline-label">
+          <span>PROJECTS ARCHIVE</span>
+          <span>Click Box to Open Gallery</span>
+        </div>
+
+        <div class="timeline-track">
+
+          <!-- 01 교과우수상 -->
+          <div class="timeline-card" onclick="openProjectModal('award')">
+            <span class="tl-num">01</span>
+            <div class="tl-icon">
+              <svg class="chrome-artboard" viewBox="0 0 100 100">
+                <path class="chrome-shape" d="M23,19 C36,17 64,21 77,19 C81,36 79,64 77,81 C64,83 36,79 23,81 C19,64 21,36 23,19 Z M50,34 L66,54 L34,54 Z"/>
+              </svg>
+            </div>
+            <span class="tl-title">교과우수상</span>
+            <div class="tl-bottom-row">
+              <span class="tl-category">Academic Honor</span>
+              <span class="tl-arrow">→</span>
+            </div>
+          </div>
+
+          <!-- 02 뮤직비디오 -->
+          <div class="timeline-card" onclick="openProjectModal('musicvideo')">
+            <span class="tl-num">02</span>
+            <div class="tl-icon">
+              <svg class="chrome-artboard" viewBox="0 0 100 100">
+                <path class="chrome-shape" d="M21,23 C41,17 59,25 79,23 C83,41 75,59 79,77 C59,83 41,75 21,77 C17,59 25,41 21,23 Z M32,50 Q50,32 68,50 Q50,68 32,50 Z"/>
+              </svg>
+            </div>
+            <span class="tl-title">뮤직비디오 촬영</span>
+            <div class="tl-bottom-row">
+              <span class="tl-category">Videography & Direction</span>
+              <span class="tl-arrow">→</span>
+            </div>
+          </div>
+
+          <!-- 03 포토샵 아트워크 -->
+          <div class="timeline-card" onclick="openProjectModal('photoshop')">
+            <span class="tl-num">03</span>
+            <div class="tl-icon">
+              <svg class="chrome-artboard" viewBox="0 0 100 100">
+                <path class="chrome-shape" d="M19,24 C36,19 64,17 81,24 C79,44 83,64 81,81 C64,79 36,83 19,81 C21,64 17,44 19,24 Z M43,50 A7,7 0 1,0 57,50 Z"/>
+              </svg>
+            </div>
+            <span class="tl-title">포토샵 아트워크</span>
+            <div class="tl-bottom-row">
+              <span class="tl-category">Visual Design</span>
+              <span class="tl-arrow">→</span>
+            </div>
+          </div>
+
+          <!-- 04 일본 여행 -->
+          <div class="timeline-card" onclick="openProjectModal('japan')">
+            <span class="tl-num">04</span>
+            <div class="tl-icon">
+              <svg class="chrome-artboard" viewBox="0 0 100 100">
+                <path class="chrome-shape" d="M24,21 C44,23 64,17 77,21 C81,39 79,67 77,79 C21,67 23,39 24,21 Z M38,62 L62,38"/>
+              </svg>
+            </div>
+            <span class="tl-title">일본 여행 계획</span>
+            <div class="tl-bottom-row">
+              <span class="tl-category">Editorial Identity</span>
+              <span class="tl-arrow">→</span>
+            </div>
+          </div>
+
+          <!-- 05 디자인 위크 -->
+          <div class="timeline-card" onclick="openProjectModal('designweek')">
+            <span class="tl-num">05</span>
+            <div class="tl-icon">
+              <svg class="chrome-artboard" viewBox="0 0 100 100">
+                <path class="chrome-shape" d="M23,23 C43,19 61,23 77,23 C79,43 81,61 77,77 Z M42,36 L58,36"/>
+              </svg>
+            </div>
+            <span class="tl-title">디자인 위크 우수</span>
+            <div class="tl-bottom-row">
+              <span class="tl-category">Exhibition Main Winner</span>
+              <span class="tl-arrow">→</span>
+            </div>
+          </div>
+
+          <!-- 06 코더스 -->
+          <div class="timeline-card" onclick="openProjectModal('coders')">
+            <span class="tl-num">06</span>
+            <div class="tl-icon">
+              <svg class="chrome-artboard" viewBox="0 0 100 100">
+                <path class="chrome-shape" d="M21,21 C41,25 59,17 79,21 C59,85 41,79 21,81 Z"/>
+              </svg>
+            </div>
+            <span class="tl-title">코더스 동아리</span>
+            <div class="tl-bottom-row">
+              <span class="tl-category">Club Workspace</span>
+              <span class="tl-arrow">→</span>
+            </div>
+          </div>
+
+          <!-- 07 방과후 -->
+          <div class="timeline-card" onclick="openProjectModal('afterschool')">
+            <span class="tl-num">07</span>
+            <div class="tl-icon">
+              <svg class="chrome-artboard" viewBox="0 0 100 100">
+                <path class="chrome-shape" d="M22,22 C42,18 58,22 78,22 C80,42 82,60 78,78 C58,82 42,78 22,78 C18,60 20,42 22,22 Z M35,50 L65,50 M50,35 L50,65"/>
+              </svg>
+            </div>
+            <span class="tl-title">방과후 수업</span>
+            <div class="tl-bottom-row">
+              <span class="tl-category">Color & Design Study</span>
+              <span class="tl-arrow">→</span>
+            </div>
+          </div>
+
+          <!-- 08 일러스트 -->
+          <div class="timeline-card" onclick="openProjectModal('illust')">
+            <span class="tl-num">08</span>
+            <div class="tl-icon">
+              <svg class="chrome-artboard" viewBox="0 0 100 100">
+                <path class="chrome-shape" d="M20,20 C45,15 75,25 80,20 C83,45 78,65 80,80 C55,85 25,75 20,80 C17,55 22,45 20,20 Z M30,60 Q50,30 70,60"/>
+              </svg>
+            </div>
+            <span class="tl-title">일러스트 작업</span>
+            <div class="tl-bottom-row">
+              <span class="tl-category">Illustration Portfolio</span>
+              <span class="tl-arrow">→</span>
+            </div>
+          </div>
+
+        </div><!-- /timeline-track -->
+      </div><!-- /timeline-container -->
+
+      <div class="cta-capsule-wrap fade-up">
+        <a href="javascript:void(0)" onclick="showMain()" class="cta-capsule">
+          <span>☰</span> Back to main home
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PROJECT MODAL
+  ═══════════════════════════════════════════ -->
+  <div id="project-modal" class="project-modal">
+    <button class="close-modal-btn" onclick="closeProjectModal()">CLOSE ✕</button>
+    <div class="modal-content" id="modal-dynamic-content"></div>
+  </div>
+
+  <script>
+    /* ── DATA ── */
+    const projectResultsData = {
+      award: {
+        badge: "Academic Honor",
+        title: "교과우수상 아카이브 결과물",
+        layoutClass: "single-layout",
+        items: [
+          { type: "image", src: "images/Award_1st Semester.jpg",  caption: "1학기 교과우수상 실물 인증" },
+          { type: "image", src: "images/Award_2st Semester.jpg",  caption: "2학기 교과우수상 실물 인증" }
+        ]
+      },
+      musicvideo: {
+        badge: "Videography & Directing Portfolio",
+        title: "뮤직비디오 촬영 세부 에셋 결과물",
+        layoutClass: "single-layout",
+        items: [
+          { type: "video", src: "images/Micon_Owner and La-bu couple.mp4", caption: "Micon_Owner and La-bu couple 메인 연출 비디오 소스" }
+        ]
+      },
+      photoshop: {
+        badge: "Visual Artwork",
+        title: "포토샵 아트워크 결과물",
+        layoutClass: "single-layout",
+        items: [
+          { type: "image", src: "images/1781224426647_image.png", caption: "Photoshop 그래픽 일러스트레이션 스냅 #1" },
+          { type: "image", src: "images/1781224452576_image.png", caption: "Photoshop 그래픽 일러스트레이션 스냅 #2" }
+        ]
+      },
+      japan: {
+        badge: "Editorial Branding",
+        title: "일본 여행 계획 Identity",
+        layoutClass: "single-layout",
+        items: [
+          { type: "video", src: "images/tokyo-shorts.mp4", caption: "Travel to Japan - Editorial & Information Architecture Design 비디오" }
+        ]
+      },
+      designweek: {
+        badge: "Space Exhibition Design",
+        title: "디자인 위크 우수 선정 작업",
+        layoutClass: "",
+        items: [
+          { type: "image", src: "images/Figma_Contest_Subway_5_.png", caption: "Subway Design 프로젝트 스냅 #5" },
+          { type: "image", src: "images/Figma_Contest_Subway_4_.png", caption: "Subway Design 프로젝트 스냅 #4" },
+          { type: "image", src: "images/Figma_Contest_Subway_3_.png", caption: "Subway Design 프로젝트 스냅 #3" },
+          { type: "image", src: "images/Figma_Contest_Subway_2_.png", caption: "Subway Design 프로젝트 스냅 #2" },
+          { type: "image", src: "images/Figma_Contest_Subway_1_.png", caption: "Subway Design 프로젝트 스냅 #1" }
+        ]
+      },
+      coders: {
+        badge: "UI/UX Development Club",
+        title: "코더스 동아리 워크스페이스 아카이브",
+        layoutClass: "",
+        items: [
+          { type: "image", src: "images/coders-01-cover.png",    caption: "Co-working & Interaction Design - Cover" },
+          { type: "image", src: "images/coders-02-members.png",  caption: "Co-working & Interaction Design - Members" },
+          { type: "image", src: "images/coders-03-app-intro.png",caption: "Co-working & Interaction Design - App Intro 1" },
+          { type: "image", src: "images/coders-04-app-intro2.png",caption:"Co-working & Interaction Design - App Intro 2" },
+          { type: "image", src: "images/coders-05-intent.png",   caption: "Co-working & Interaction Design - Intent" }
+        ]
+      },
+      afterschool: {
+        badge: "Color & Design Study",
+        title: "방과후 수업 아카이브",
+        layoutClass: "",
+        items: [
+          { type: "image", src: "images/color-mixing-01.png", caption: "Color Mixing 실습 #1" },
+          { type: "image", src: "images/color-mixing-02.png", caption: "Color Mixing 실습 #2" },
+          { type: "image", src: "images/color-mixing-03.png", caption: "Color Mixing 실습 #3" },
+          { type: "image", src: "images/color-mixing-04.png", caption: "Color Mixing 실습 #4" },
+          { type: "image", src: "images/color-mixing-05.png", caption: "Color Mixing 실습 #5" },
+          { type: "image", src: "images/color-scheme-00.png", caption: "Color Scheme #0" },
+          { type: "image", src: "images/color-scheme-01.png", caption: "Color Scheme #1" },
+          { type: "image", src: "images/color-scheme-02.png", caption: "Color Scheme #2" },
+          { type: "image", src: "images/color-scheme-03.png", caption: "Color Scheme #3" }
+        ]
+      },
+      illust: {
+        badge: "Illustration Portfolio",
+        title: "일러스트 작업 아카이브",
+        layoutClass: "",
+        items: [
+          { type: "image", src: "images/VD_Portfolio_13.png",  caption: "VD Portfolio #13" },
+          { type: "image", src: "images/VD_Portfolio_5.png",   caption: "VD Portfolio #5" },
+          { type: "image", src: "images/VD_Portfolio_14.png",  caption: "VD Portfolio #14" },
+          { type: "image", src: "images/VD_Portfolio_6.png",   caption: "VD Portfolio #6" },
+          { type: "image", src: "images/VD_Portfolio_7.png",   caption: "VD Portfolio #7" },
+          { type: "image", src: "images/VD_Portfolio_8.png",   caption: "VD Portfolio #8" },
+          { type: "image", src: "images/VD_Portfolio_9.png",   caption: "VD Portfolio #9" },
+          { type: "image", src: "images/VD_Portfolio_10.png",  caption: "VD Portfolio #10" },
+          { type: "image", src: "images/VD_Portfolio_11.png",  caption: "VD Portfolio #11" },
+          { type: "image", src: "images/VD_Portfolio_12.png",  caption: "VD Portfolio #12" },
+          { type: "image", src: "images/VD_Russian__Doll.jpg", caption: "Russian Doll Illustration" }
+        ]
+      }
+    };
+
+    /* ── MODAL OPEN/CLOSE ── */
+    function openProjectModal(key) {
+      const data = projectResultsData[key];
+      if (!data) return;
+
+      let itemsHTML = '';
+      data.items.forEach(item => {
+        if (item.type === 'video') {
+          itemsHTML += `
+            <div class="result-item-card">
+              <video src="${item.src}" autoplay loop muted playsinline controls></video>
+              <div class="result-caption">${item.caption}</div>
+            </div>`;
+        } else {
+          itemsHTML += `
+            <div class="result-item-card">
+              <img src="${item.src}" alt="${item.caption}">
+              <div class="result-caption">${item.caption}</div>
+            </div>`;
+        }
+      });
+
+      document.getElementById('modal-dynamic-content').innerHTML = `
+        <div class="modal-header-info">
+          <span class="modal-badge">${data.badge}</span>
+          <h3 class="modal-main-title">${data.title}</h3>
+        </div>
+        <div class="results-gallery-grid ${data.layoutClass}">${itemsHTML}</div>
+      `;
+
+      const modal = document.getElementById('project-modal');
+      modal.style.display = 'flex';
+      modal.scrollTop = 0;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProjectModal() {
+      document.getElementById('project-modal').style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    /* ── CURSOR ── */
+    const cursor = document.getElementById('custom-cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, .stat-box, .phil-card, .skill-tag, .timeline-card, .cta-capsule').forEach(el => {
+      el.addEventListener('mouseover', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseout',  () => cursor.classList.remove('hover'));
+    });
+
+    /* ── NAV COLOUR ON SCROLL ── */
+    const mainNav = document.getElementById('main-nav');
+    const philosophySection = document.getElementById('philosophy');
+    window.addEventListener('scroll', () => {
+      if (!philosophySection) return;
+      const philTop    = philosophySection.getBoundingClientRect().top;
+      const philBottom = philosophySection.getBoundingClientRect().bottom;
+      if (philTop <= 40 && philBottom >= 40) {
+        mainNav.className = 'nav-dark';
+        document.body.classList.add('dark-mode-cursor');
+      } else {
+        mainNav.className = 'nav-white';
+        document.body.classList.remove('dark-mode-cursor');
+      }
+    });
+
+    /* ── FADE UP OBSERVER ── */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    /* ── PAGE SWITCH ── */
+    function showDetail() {
+      document.getElementById('main-page').classList.add('hidden-page');
+      document.getElementById('detail-page').classList.remove('hidden-page');
+      window.scrollTo(0, 0);
+    }
+    function showMain() {
+      document.getElementById('detail-page').classList.add('hidden-page');
+      document.getElementById('main-page').classList.remove('hidden-page');
+      window.scrollTo(0, 0);
+    }
+
+    /* ── ESC to close modal ── */
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeProjectModal();
+    });
+  </script>
+</body>
+</html>
